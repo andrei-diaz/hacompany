@@ -1,26 +1,36 @@
 const items = [
   "Web Design",
-  "Branding",
   "Aplicaciones",
   "Frontend",
   "Backend",
-  "UI/UX",
-  "E-commerce",
+  "Branding",
   "Dashboards",
+  "E-commerce",
 ];
 
 export default function Marquee() {
-  const doubled = [...items, ...items];
+  const tripled = [...items, ...items, ...items];
   return (
-    <div className="relative bg-orange text-background py-6 overflow-hidden border-y-4 border-foreground -rotate-2 my-16 -mx-4">
-      <div className="marquee-track flex whitespace-nowrap will-change-transform">
-        {doubled.map((item, i) => (
+    <div
+      className="overflow-hidden"
+      style={{ background: "var(--ink)", color: "var(--orange)", padding: "18px 0" }}
+    >
+      <div
+        className="flex whitespace-nowrap"
+        style={{ animation: "hh-scroll 40s linear infinite" }}
+      >
+        {tripled.map((t, i) => (
           <span
             key={i}
-            className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter px-8 inline-flex items-center gap-8"
+            className="font-display italic uppercase inline-flex items-center gap-6 px-6"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: 38,
+              letterSpacing: "-0.02em",
+            }}
           >
-            {item}
-            <span className="text-red text-4xl">★</span>
+            {t}
+            <span style={{ color: "var(--acid)", fontSize: 22 }}>✦</span>
           </span>
         ))}
       </div>

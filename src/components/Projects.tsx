@@ -1,145 +1,305 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
-import Reveal from "./Reveal";
+import { useCallback, useEffect, useState } from "react";
 
 const projects = [
   {
-    num: "01",
-    name: "Proyecto Uno",
-    summary:
-      "Reemplaza con el problema que resolvieron y el resultado en una frase.",
-    stack: ["Next.js", "Tailwind", "Supabase"],
-    color: "from-orange to-red",
+    n: "01",
+    name: "Lares",
+    sub: "Plataforma inmobiliaria",
+    stack: ["Next.js", "Supabase", "Mapbox"],
+    year: "2025",
+    kind: "App",
+    grad: "linear-gradient(135deg, #ff4d1c, #5a1500)",
   },
   {
-    num: "02",
-    name: "Proyecto Dos",
-    summary:
-      "Reemplaza con el problema que resolvieron y el resultado en una frase.",
-    stack: ["React", "Node.js", "PostgreSQL"],
-    color: "from-red to-orange",
+    n: "02",
+    name: "Lupa",
+    sub: "Dashboard analítico",
+    stack: ["React", "Node", "PostgreSQL"],
+    year: "2025",
+    kind: "SaaS",
+    grad: "linear-gradient(135deg, #d8ff00, #ff4d1c)",
   },
   {
-    num: "03",
-    name: "Proyecto Tres",
-    summary:
-      "Reemplaza con el problema que resolvieron y el resultado en una frase.",
-    stack: ["Next.js", "TypeScript"],
-    color: "from-yellow to-orange",
+    n: "03",
+    name: "Estudio Vela",
+    sub: "Sitio editorial",
+    stack: ["Next.js", "Sanity"],
+    year: "2024",
+    kind: "Web",
+    grad: "linear-gradient(135deg, #fff5ee, #ff7a52)",
+  },
+  {
+    n: "04",
+    name: "Pulso",
+    sub: "App de tracking",
+    stack: ["React Native", "Firebase"],
+    year: "2024",
+    kind: "Mobile",
+    grad: "linear-gradient(135deg, #0a0a0a, #ff4d1c)",
+  },
+  {
+    n: "05",
+    name: "Mira",
+    sub: "CMS para creadores",
+    stack: ["Next.js", "tRPC"],
+    year: "2023",
+    kind: "SaaS",
+    grad: "linear-gradient(135deg, #ff4d1c, #d8ff00)",
   },
 ];
 
-function StickyCard({
-  project,
-  index,
-  total,
-}: {
-  project: (typeof projects)[number];
-  index: number;
-  total: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    [0.95, 1, 1 - (total - index - 1) * 0.04]
-  );
-  const rotate = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    [index % 2 === 0 ? -2 : 2, 0, 0]
-  );
-
-  return (
-    <div
-      ref={ref}
-      className="sticky top-24 md:top-28"
-      style={{ zIndex: index + 1 }}
-    >
-      <motion.article
-        style={{ scale, rotate }}
-        className="bg-card border border-border rounded-3xl overflow-hidden mb-8 shadow-2xl shadow-black/40"
-      >
-        <div className="grid md:grid-cols-2 gap-0 min-h-[480px]">
-          <div
-            className={`relative bg-gradient-to-br ${project.color} flex items-center justify-center p-12 overflow-hidden`}
-          >
-            <div className="absolute inset-0 grid-bg opacity-30" />
-            <div className="relative text-[clamp(6rem,18vw,18rem)] font-black italic text-background/20 leading-none">
-              {project.num}
-            </div>
-            <div className="absolute top-6 left-6 px-3 py-1 rounded-full bg-background/20 backdrop-blur-md text-xs font-mono uppercase tracking-widest text-background">
-              Caso {project.num}
-            </div>
-          </div>
-          <div className="p-10 md:p-14 flex flex-col justify-between">
-            <div>
-              <h3 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter mb-4">
-                {project.name}
-              </h3>
-              <p className="text-muted text-lg leading-relaxed mb-8">
-                {project.summary}
-              </p>
-            </div>
-            <div>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {project.stack.map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs font-mono uppercase tracking-widest px-3 py-1.5 rounded-full border border-border text-muted"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 font-bold text-orange hover:gap-4 transition-all"
-              >
-                Ver caso completo
-                <span>→</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </motion.article>
-    </div>
-  );
+function navBtnStyle(disabled: boolean): React.CSSProperties {
+  return {
+    width: 56,
+    height: 56,
+    borderRadius: "50%",
+    background: disabled ? "rgba(10,10,10,0.08)" : "var(--ink)",
+    color: disabled ? "rgba(10,10,10,0.3)" : "var(--paper)",
+    border: "none",
+    cursor: disabled ? "not-allowed" : "pointer",
+    fontSize: 20,
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    transition: "transform 0.2s",
+  };
 }
 
 export default function Projects() {
+  const [active, setActive] = useState(2);
+
+  const next = useCallback(
+    () => setActive((a) => Math.min(projects.length - 1, a + 1)),
+    []
+  );
+  const prev = useCallback(() => setActive((a) => Math.max(0, a - 1)), []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [next, prev]);
+
   return (
-    <section id="proyectos" className="relative py-32 md:py-48">
-      <div className="max-w-7xl mx-auto px-6">
-        <Reveal>
-          <div className="mb-20 max-w-3xl">
-            <p className="text-sm font-mono uppercase tracking-widest text-orange mb-4">
-              / Proyectos
-            </p>
-            <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase italic leading-[0.9]">
-              Trabajo
-              <br />
-              <span className="text-red">seleccionado.</span>
+    <section
+      id="proyectos"
+      className="relative pt-32 pb-20 px-6 overflow-hidden"
+      style={{ background: "var(--paper)", color: "var(--ink)" }}
+    >
+      <div className="max-w-[1280px] mx-auto">
+        <div className="flex flex-wrap items-end justify-between gap-8 mb-12">
+          <div>
+            <h2
+              className="font-display italic uppercase m-0"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(56px, 9vw, 128px)",
+                letterSpacing: "-0.04em",
+                lineHeight: 0.85,
+              }}
+            >
+              Trabajo{" "}
+              <span style={{ color: "var(--orange)" }}>seleccionado.</span>
             </h2>
           </div>
-        </Reveal>
-
-        <div className="relative">
-          {projects.map((p, i) => (
-            <StickyCard
-              key={p.num}
-              project={p}
-              index={i}
-              total={projects.length}
-            />
-          ))}
+          <div className="flex gap-3">
+            <button
+              onClick={prev}
+              disabled={active === 0}
+              aria-label="Proyecto anterior"
+              style={navBtnStyle(active === 0)}
+            >
+              ←
+            </button>
+            <button
+              onClick={next}
+              disabled={active === projects.length - 1}
+              aria-label="Siguiente proyecto"
+              style={navBtnStyle(active === projects.length - 1)}
+            >
+              →
+            </button>
+          </div>
         </div>
+      </div>
+
+      <div
+        className="relative mb-10"
+        style={{ height: 560, perspective: 1800 }}
+      >
+        <div
+          className="absolute"
+          style={{
+            left: "50%",
+            top: "50%",
+            transformStyle: "preserve-3d",
+          }}
+        >
+          {projects.map((p, i) => {
+            const offset = i - active;
+            const abs = Math.abs(offset);
+            const tx = offset * 280;
+            const tz = -abs * 200;
+            const ry = offset * -25;
+            const opacity = abs > 2 ? 0 : 1 - abs * 0.15;
+            return (
+              <article
+                key={p.n}
+                onClick={() => setActive(i)}
+                style={{
+                  position: "absolute",
+                  left: -220,
+                  top: -260,
+                  width: 440,
+                  height: 520,
+                  borderRadius: 28,
+                  overflow: "hidden",
+                  transform: `translate3d(${tx}px, 0, ${tz}px) rotateY(${ry}deg)`,
+                  transition:
+                    "transform .7s cubic-bezier(.22,1,.36,1), opacity .7s",
+                  cursor: i === active ? "default" : "pointer",
+                  background: p.grad,
+                  opacity,
+                  boxShadow:
+                    i === active
+                      ? "0 40px 80px rgba(10,10,10,0.35), 0 0 0 1px rgba(10,10,10,0.1)"
+                      : "0 20px 40px rgba(10,10,10,0.2)",
+                  pointerEvents: abs > 2 ? "none" : "auto",
+                }}
+              >
+                <div
+                  aria-hidden
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    backgroundImage:
+                      "linear-gradient(rgba(10,10,10,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.08) 1px, transparent 1px)",
+                    backgroundSize: "40px 40px",
+                  }}
+                />
+                <div
+                  aria-hidden
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background:
+                      "linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 40%, rgba(0,0,0,0.4) 100%)",
+                  }}
+                />
+
+                <div
+                  className="font-display italic"
+                  style={{
+                    position: "absolute",
+                    top: -40,
+                    right: -20,
+                    fontFamily: "var(--font-display)",
+                    fontSize: 360,
+                    color: "rgba(10,10,10,0.18)",
+                    lineHeight: 1,
+                    letterSpacing: "-0.06em",
+                  }}
+                >
+                  {p.n}
+                </div>
+
+                <div
+                  className="font-mono uppercase"
+                  style={{
+                    position: "absolute",
+                    top: 20,
+                    left: 20,
+                    padding: "6px 12px",
+                    borderRadius: 999,
+                    background: "rgba(255,245,238,0.95)",
+                    color: "var(--ink)",
+                    fontSize: 10,
+                    letterSpacing: "0.18em",
+                  }}
+                >
+                  Caso {p.n} · {p.kind}
+                </div>
+
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: 28,
+                    color: "var(--paper)",
+                  }}
+                >
+                  <h3
+                    className="font-display italic uppercase m-0"
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: 56,
+                      letterSpacing: "-0.03em",
+                      marginBottom: 4,
+                      textShadow: "0 4px 24px rgba(0,0,0,0.4)",
+                    }}
+                  >
+                    {p.name}
+                  </h3>
+                  <p
+                    className="italic m-0 mb-4"
+                    style={{
+                      fontFamily: "var(--font-serif)",
+                      fontSize: 18,
+                      opacity: 0.95,
+                    }}
+                  >
+                    {p.sub}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {p.stack.map((s) => (
+                      <span
+                        key={s}
+                        className="font-mono uppercase"
+                        style={{
+                          fontSize: 10,
+                          padding: "4px 10px",
+                          borderRadius: 999,
+                          border: "1px solid rgba(255,245,238,0.4)",
+                          letterSpacing: "0.12em",
+                        }}
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="flex justify-center gap-2">
+        {projects.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActive(i)}
+            aria-label={`Ir al proyecto ${i + 1}`}
+            style={{
+              width: i === active ? 32 : 10,
+              height: 10,
+              borderRadius: 999,
+              background:
+                i === active ? "var(--orange)" : "rgba(10,10,10,0.2)",
+              border: "none",
+              cursor: "pointer",
+              transition: "all .3s",
+              padding: 0,
+            }}
+          />
+        ))}
       </div>
     </section>
   );

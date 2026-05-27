@@ -1,21 +1,34 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Archivo_Black, DM_Serif_Display, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const archivo = Archivo_Black({
+  variable: "--font-archivo",
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const serif = DM_Serif_Display({
+  variable: "--font-serif",
+  weight: "400",
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+});
+
+const mono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "HA — Desarrollo web y aplicaciones",
+  title: "HA — Estudio digital · Montemorelos, NL",
   description:
-    "Diseñamos y desarrollamos páginas web y aplicaciones a la medida. Soluciones modernas, rápidas y escalables.",
+    "Hacemos software que importa. Estudio independiente de dos personas: páginas web, aplicaciones y productos a la medida.",
 };
 
 export default function RootLayout({
@@ -26,7 +39,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${archivo.variable} ${serif.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

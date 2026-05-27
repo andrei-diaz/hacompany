@@ -1,33 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-  --orange: #ff5b1f;
-  --red: #ef2917;
-  --yellow: #ffd60a;
-  --muted: #8a8a8a;
-  --border: #1f1f1f;
-  --card: #111111;
+  --orange: #ff4d1c;
+  --orange-deep: #d83a0d;
+  --orange-light: #ff7a52;
+  --ink: #0a0a0a;
+  --paper: #fff5ee;
+  --acid: #d8ff00;
+  --line: rgba(10, 10, 10, 0.18);
+  --dim: rgba(10, 10, 10, 0.55);
+
+  --background: var(--orange);
+  --foreground: var(--ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-orange: var(--orange);
-  --color-red: var(--red);
-  --color-yellow: var(--yellow);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
-  --color-card: var(--card);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-orange-deep: var(--orange-deep);
+  --color-orange-light: var(--orange-light);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-acid: var(--acid);
+  --color-line: var(--line);
+  --color-dim: var(--dim);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-mono);
+  --font-display: var(--font-archivo);
+  --font-serif: var(--font-serif);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -36,22 +43,19 @@ html {
   scroll-behavior: smooth;
 }
 
-@keyframes marquee {
+@keyframes hh-scroll {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  to { transform: translateX(-33.333%); }
 }
 
-.marquee-track {
-  animation: marquee 30s linear infinite;
+@keyframes hh-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
 .grid-bg {
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(10, 10, 10, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 10, 10, 0.06) 1px, transparent 1px);
   background-size: 64px 64px;
-}
-
-.noise {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 }

@@ -1,62 +1,169 @@
 "use client";
 
+import { useState } from "react";
 import Reveal from "./Reveal";
+import ContactModal from "./ContactModal";
 
 export default function Contact() {
+  const [open, setOpen] = useState(false);
+
   return (
     <section
       id="contacto"
-      className="relative py-32 md:py-48 overflow-hidden bg-orange text-background"
+      className="relative px-6 py-32 overflow-hidden"
+      style={{ background: "var(--ink)", color: "var(--paper)" }}
     >
-      <div className="absolute inset-0 grid-bg opacity-20" />
       <div
         aria-hidden
-        className="absolute -top-40 -left-40 size-[600px] rounded-full bg-red/40 blur-3xl"
+        className="absolute pointer-events-none"
+        style={{
+          top: -200,
+          right: -200,
+          width: 600,
+          height: 600,
+          borderRadius: "50%",
+          background: "var(--orange)",
+          filter: "blur(120px)",
+          opacity: 0.5,
+        }}
       />
       <div
         aria-hidden
-        className="absolute -bottom-40 -right-40 size-[600px] rounded-full bg-yellow/30 blur-3xl"
+        className="absolute pointer-events-none"
+        style={{
+          bottom: -200,
+          left: -200,
+          width: 500,
+          height: 500,
+          borderRadius: "50%",
+          background: "var(--acid)",
+          filter: "blur(120px)",
+          opacity: 0.3,
+        }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative max-w-[1280px] mx-auto">
         <Reveal>
-          <p className="text-sm font-mono uppercase tracking-widest mb-4 opacity-70">
-            / Contacto
-          </p>
-          <h2 className="text-6xl md:text-[12rem] font-black tracking-tighter uppercase italic leading-[0.85] mb-10">
-            ¿Tienes
-            <br />
-            una idea?
+          <h2
+            className="font-display italic uppercase m-0 mb-8"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(72px, 14vw, 240px)",
+              letterSpacing: "-0.05em",
+              lineHeight: 0.82,
+            }}
+          >
+            ¿Tienes <br />
+            <span
+              className="italic"
+              style={{ fontFamily: "var(--font-serif)", color: "var(--orange)" }}
+            >
+              una idea?
+            </span>
           </h2>
         </Reveal>
 
-        <Reveal delay={0.15}>
-          <p className="text-xl md:text-2xl leading-relaxed max-w-2xl mb-12 opacity-90">
+        <Reveal delay={0.1}>
+          <p
+            className="text-[19px] leading-[1.5] max-w-xl mb-14"
+            style={{ opacity: 0.85 }}
+          >
             Cuéntanos de tu proyecto. Te respondemos en menos de 24 horas con
             una propuesta inicial sin compromiso.
           </p>
         </Reveal>
 
-        <Reveal delay={0.25}>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="mailto:hola@hacompany.com"
-              className="group px-8 py-5 rounded-full bg-background text-foreground font-black text-lg uppercase italic tracking-tight hover:bg-foreground hover:text-background transition-colors inline-flex items-center gap-3"
-            >
-              hola@hacompany.com
-              <span className="group-hover:translate-x-1 transition-transform">
-                →
-              </span>
-            </a>
-            <a
-              href="#"
-              className="px-8 py-5 rounded-full border-2 border-background text-background font-black text-lg uppercase italic tracking-tight hover:bg-background hover:text-orange transition-colors"
-            >
-              WhatsApp
-            </a>
+        <Reveal delay={0.15}>
+          <div
+            className="font-mono uppercase mb-6"
+            style={{
+              fontSize: 11,
+              color: "var(--orange)",
+              letterSpacing: "0.2em",
+            }}
+          >
+            Cómo trabajamos
+          </div>
+          <div className="grid md:grid-cols-4 gap-px mb-14" style={{ background: "rgba(255,245,238,0.12)" }}>
+            {[
+              {
+                n: "01",
+                t: "Contactas",
+                d: "Nos escribes por correo o Instagram con la idea que tienes en mente.",
+              },
+              {
+                n: "02",
+                t: "Conversamos",
+                d: "Una llamada corta para entender alcance, plazos y objetivos reales.",
+              },
+              {
+                n: "03",
+                t: "Propuesta",
+                d: "Te enviamos plan de desarrollo y cotización por hitos. Sin compromiso.",
+              },
+              {
+                n: "04",
+                t: "Construimos",
+                d: "Trabajamos en sprints, con pagos por hito entregado y aprobado.",
+              },
+            ].map((step) => (
+              <div
+                key={step.n}
+                className="p-6"
+                style={{ background: "var(--ink)" }}
+              >
+                <div
+                  className="font-mono mb-4"
+                  style={{
+                    fontSize: 11,
+                    color: "var(--orange)",
+                    letterSpacing: "0.2em",
+                  }}
+                >
+                  {step.n} /
+                </div>
+                <h3
+                  className="font-display italic uppercase m-0 mb-3"
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: 26,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1,
+                  }}
+                >
+                  {step.t}
+                </h3>
+                <p
+                  className="text-[13px] leading-[1.55] m-0"
+                  style={{ opacity: 0.7 }}
+                >
+                  {step.d}
+                </p>
+              </div>
+            ))}
           </div>
         </Reveal>
+
+        <Reveal delay={0.2}>
+          <button
+            onClick={() => setOpen(true)}
+            className="inline-flex items-center gap-3 font-semibold transition-transform hover:scale-[1.03]"
+            style={{
+              padding: "20px 32px",
+              borderRadius: 999,
+              background: "var(--orange)",
+              color: "var(--ink)",
+              fontSize: 16,
+              boxShadow: "0 12px 40px rgba(255,77,28,0.4)",
+            }}
+          >
+            <span className="size-1.5 rounded-full bg-ink" />
+            Hablemos →
+          </button>
+        </Reveal>
       </div>
+
+      <ContactModal open={open} onClose={() => setOpen(false)} />
     </section>
   );
 }

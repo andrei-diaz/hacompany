@@ -1,133 +1,105 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
-
-function PlusMark({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="3"
-      strokeLinecap="square"
-    >
-      <path d="M12 4v16M4 12h16" />
-    </svg>
-  );
-}
+import { useEffect, useState } from "react";
+import Reveal from "./Reveal";
+import Sphere3D from "./Sphere3D";
 
 export default function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
+  const [sphereSize, setSphereSize] = useState(480);
 
-  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
+  useEffect(() => {
+    const compute = () => {
+      const w = window.innerWidth;
+      if (w < 640) setSphereSize(Math.min(340, w - 64));
+      else if (w < 1024) setSphereSize(420);
+      else if (w < 1280) setSphereSize(460);
+      else setSphereSize(500);
+    };
+    compute();
+    window.addEventListener("resize", compute);
+    return () => window.removeEventListener("resize", compute);
+  }, []);
 
   return (
     <section
       id="top"
-      ref={ref}
-      className="relative min-h-screen overflow-hidden flex items-center pt-24 pb-16"
+      className="relative px-6 pt-10 pb-24 overflow-hidden"
     >
-      <div className="absolute inset-0 grid-bg -z-20" />
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(900px circle at 80% 20%, rgba(255,91,31,0.30), transparent 55%), radial-gradient(700px circle at 10% 90%, rgba(239,41,23,0.25), transparent 55%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute -top-32 -right-32 size-[500px] rounded-full bg-orange/20 blur-3xl -z-10"
-      />
+      <div aria-hidden className="absolute inset-0 grid-bg pointer-events-none" />
 
-      <motion.div
-        style={{ y, opacity, scale }}
-        className="max-w-7xl mx-auto px-6 w-full"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest border border-orange/40 text-orange rounded-full px-4 py-1.5 mb-10"
+      <div className="relative max-w-[1280px] mx-auto">
+        <div
+          className="flex flex-wrap items-center justify-between gap-4 mb-10 font-mono uppercase text-ink"
+          style={{ fontSize: 11, letterSpacing: "0.18em" }}
         >
-          <span className="size-1.5 rounded-full bg-orange animate-pulse" />
-          Estudio digital · 2026
-        </motion.div>
-
-        <div className="relative">
-          <PlusMark className="absolute -top-6 -left-6 size-6 text-orange hidden md:block" />
-          <PlusMark className="absolute -bottom-6 -right-6 size-6 text-red hidden md:block" />
-
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="text-[clamp(3rem,11vw,11rem)] font-black tracking-[-0.04em] leading-[0.85] uppercase italic"
-          >
-            <motion.span
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="block"
-            >
-              Diseño <span className="text-orange">+</span>
-            </motion.span>
-            <motion.span
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="block"
-            >
-              Código <span className="text-red">=</span>
-            </motion.span>
-            <motion.span
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="block bg-gradient-to-r from-orange via-red to-orange bg-clip-text text-transparent"
-            >
-              Productos.
-            </motion.span>
-          </motion.h1>
+          <span>HA · Montemorelos, NL</span>
+          <span className="inline-flex items-center gap-2">
+            <span
+              className="size-1.5 rounded-full bg-ink"
+              style={{ animation: "hh-pulse 1.5s infinite" }}
+            />
+            Tomando proyectos · Q3 2026
+          </span>
+          <span>arrastra el planeta ↻</span>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-          className="mt-10 grid md:grid-cols-2 gap-8 items-end"
-        >
-          <p className="text-lg md:text-xl text-muted leading-relaxed max-w-xl">
-            Somos un estudio independiente. Construimos páginas web y
-            aplicaciones que la gente <span className="text-foreground font-semibold">realmente</span>{" "}
-            quiere usar.
-          </p>
-          <div className="flex flex-wrap gap-3 md:justify-end">
-            <a
-              href="#contacto"
-              className="group relative px-7 py-4 rounded-full bg-orange text-background font-bold overflow-hidden"
+        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-10 items-center min-h-[600px]">
+          <Reveal>
+            <h1
+              className="font-display italic uppercase text-ink m-0"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(56px, 8.5vw, 140px)",
+                lineHeight: 0.82,
+                letterSpacing: "-0.05em",
+              }}
             >
-              <span className="relative z-10">Empezar proyecto →</span>
-              <span className="absolute inset-0 bg-red translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            </a>
-            <a
-              href="#proyectos"
-              className="px-7 py-4 rounded-full border-2 border-foreground/20 hover:border-foreground hover:bg-foreground hover:text-background font-bold transition-all"
-            >
-              Ver trabajo
-            </a>
-          </div>
-        </motion.div>
-      </motion.div>
+              <span className="block">Hacemos</span>
+              <span className="block relative">software</span>
+              <span
+                className="block italic"
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  color: "var(--paper)",
+                  WebkitTextStroke: "2px var(--ink)",
+                }}
+              >
+                que importa.
+              </span>
+            </h1>
+
+            <p className="text-ink/85 mt-8 max-w-md text-[18px] leading-[1.55]">
+              Estudio independiente de dos personas. Hablas directo con quien
+              escribe el código y dibuja la pantalla — del primer email al
+              deploy.
+            </p>
+
+            <div className="flex flex-wrap gap-3 mt-8">
+              <a
+                href="#contacto"
+                className="inline-flex items-center gap-2.5 px-7 py-[18px] rounded-full bg-ink text-paper font-semibold text-[15px]"
+                style={{ boxShadow: "0 12px 32px rgba(10,10,10,0.25)" }}
+              >
+                Empezar proyecto
+                <span className="size-2 rounded-full bg-acid" />
+              </a>
+              <a
+                href="#proyectos"
+                className="inline-flex items-center px-7 py-[18px] rounded-full text-ink font-semibold text-[15px] border-[1.5px] border-ink"
+              >
+                Ver trabajo ↗
+              </a>
+            </div>
+          </Reveal>
+
+          <Reveal
+            delay={0.15}
+            className="flex justify-center items-center overflow-hidden"
+          >
+            <Sphere3D size={sphereSize} />
+          </Reveal>
+        </div>
+      </div>
     </section>
   );
 }

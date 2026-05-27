@@ -1,89 +1,167 @@
 "use client";
 
 import Reveal from "./Reveal";
+import TiltCard from "./TiltCard";
 
 const services = [
   {
-    num: "01",
-    title: "Páginas Web",
-    description:
-      "Sitios corporativos, landings y portafolios. Rápidos, optimizados y listos para convertir visitantes en clientes.",
-    items: ["Diseño responsive", "SEO optimizado", "Hosting + dominio"],
-    color: "bg-orange",
-    text: "text-background",
+    n: "01",
+    t: "Páginas Web",
+    kicker: "Marketing · Landing · Portafolio",
+    d: "Sitios rápidos, optimizados y listos para convertir. Diseño + código + hosting.",
+    items: ["Diseño responsive", "SEO técnico", "Hosting + dominio"],
+    glow: "var(--acid)",
   },
   {
-    num: "02",
-    title: "Aplicaciones",
-    description:
-      "Plataformas web a la medida con autenticación, base de datos, panel admin e integraciones con APIs externas.",
-    items: ["Dashboards", "Áreas de cliente", "APIs custom"],
-    color: "bg-red",
-    text: "text-foreground",
+    n: "02",
+    t: "Aplicaciones",
+    kicker: "SaaS · Dashboards · Internas",
+    d: "Plataformas a la medida con autenticación, base de datos y panel admin.",
+    items: ["Dashboards", "APIs custom", "Áreas cliente"],
+    glow: "var(--orange-light)",
   },
   {
-    num: "03",
-    title: "Mantenimiento",
-    description:
-      "Mejoras continuas, soporte técnico y nuevas funciones para que tu producto siga evolucionando con tu negocio.",
-    items: ["Soporte 24/7", "Nuevas features", "Monitoreo"],
-    color: "bg-foreground",
-    text: "text-background",
+    n: "03",
+    t: "Mantenimiento",
+    kicker: "Soporte · Iteración · Crecimiento",
+    d: "Mejoras continuas, soporte técnico y nuevas funciones mes con mes.",
+    items: ["Soporte 24h", "Nuevas features", "Monitoreo"],
+    glow: "var(--acid)",
   },
 ];
 
 export default function Services() {
   return (
-    <section id="servicios" className="relative py-32 md:py-48 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      id="servicios"
+      className="relative px-6 py-32"
+      style={{ background: "var(--orange)", color: "var(--ink)" }}
+    >
+      <div className="max-w-[1280px] mx-auto">
         <Reveal>
-          <div className="flex flex-wrap items-end justify-between gap-6 mb-20">
+          <div className="flex flex-wrap items-end justify-between gap-8 mb-16">
             <div>
-              <p className="text-sm font-mono uppercase tracking-widest text-orange mb-4">
-                / Servicios
-              </p>
-              <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase italic leading-[0.9]">
-                Lo que
-                <br />
-                <span className="text-orange">hacemos.</span>
+              <h2
+                className="font-display italic uppercase m-0"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(56px, 9vw, 128px)",
+                  letterSpacing: "-0.04em",
+                  lineHeight: 0.85,
+                }}
+              >
+                Lo que{" "}
+                <span
+                  className="italic"
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    color: "var(--paper)",
+                    WebkitTextStroke: "2px var(--ink)",
+                  }}
+                >
+                  hacemos.
+                </span>
               </h2>
             </div>
-            <p className="text-muted max-w-md text-lg">
+            <p className="max-w-sm text-[16px] leading-[1.5] opacity-85">
               Tres formas de trabajar juntos. Todas empiezan con una conversación
               honesta sobre tu proyecto.
             </p>
           </div>
         </Reveal>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-5">
           {services.map((s, i) => (
-            <Reveal key={s.num} direction="up" delay={i * 0.1}>
-              <article
-                className={`group relative ${s.color} ${s.text} rounded-3xl p-8 md:p-10 h-full overflow-hidden cursor-pointer hover:scale-[1.02] transition-transform duration-300`}
-              >
-                <div className="absolute top-6 right-6 text-7xl md:text-8xl font-black opacity-15 italic">
-                  {s.num}
-                </div>
-                <div className="relative z-10 flex flex-col h-full min-h-[420px]">
-                  <h3 className="text-3xl md:text-4xl font-black uppercase italic tracking-tight mb-6">
-                    {s.title}
+            <Reveal key={s.n} delay={i * 0.08}>
+              <TiltCard className="h-full">
+                <article
+                  className="relative p-8 rounded-[28px] flex flex-col overflow-hidden h-full"
+                  style={{
+                    background: "var(--ink)",
+                    color: "var(--paper)",
+                    minHeight: 460,
+                    boxShadow: "0 24px 60px rgba(0,0,0,0.25)",
+                  }}
+                >
+                  <div
+                    aria-hidden
+                    className="absolute pointer-events-none"
+                    style={{
+                      top: -50,
+                      right: -50,
+                      width: 200,
+                      height: 200,
+                      borderRadius: "50%",
+                      background: s.glow,
+                      opacity: 0.18,
+                      filter: "blur(40px)",
+                      transform: "translateZ(20px)",
+                    }}
+                  />
+                  <div
+                    className="flex justify-between items-start mb-7"
+                    style={{ transform: "translateZ(40px)" }}
+                  >
+                    <span
+                      className="font-mono"
+                      style={{
+                        fontSize: 11,
+                        color: s.glow,
+                        letterSpacing: "0.2em",
+                      }}
+                    >
+                      {s.n} /
+                    </span>
+                    <span style={{ color: s.glow, fontSize: 18 }}>✦</span>
+                  </div>
+                  <div
+                    className="font-mono uppercase mb-3"
+                    style={{
+                      fontSize: 11,
+                      opacity: 0.55,
+                      letterSpacing: "0.15em",
+                    }}
+                  >
+                    {s.kicker}
+                  </div>
+                  <h3
+                    className="font-display italic uppercase m-0 mb-4"
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "clamp(32px, 3.2vw, 44px)",
+                      letterSpacing: "-0.04em",
+                      transform: "translateZ(30px)",
+                      wordBreak: "break-word",
+                      hyphens: "auto",
+                    }}
+                  >
+                    {s.t}
                   </h3>
-                  <p className="text-base md:text-lg leading-relaxed mb-8 opacity-90">
-                    {s.description}
+                  <p
+                    className="text-[14px] leading-[1.55] mb-7 flex-1"
+                    style={{ opacity: 0.7 }}
+                  >
+                    {s.d}
                   </p>
-                  <ul className="mt-auto space-y-2">
-                    {s.items.map((item) => (
+                  <ul className="list-none p-0 m-0">
+                    {s.items.map((it) => (
                       <li
-                        key={item}
-                        className="flex items-center gap-3 font-medium border-t border-current/20 py-3"
+                        key={it}
+                        className="font-mono uppercase flex justify-between"
+                        style={{
+                          fontSize: 12,
+                          padding: "12px 0",
+                          borderTop: "1px solid rgba(255,245,238,0.12)",
+                          letterSpacing: "0.12em",
+                        }}
                       >
-                        <span className="font-mono text-xs opacity-60">→</span>
-                        {item}
+                        <span>{it}</span>
+                        <span style={{ color: s.glow }}>+</span>
                       </li>
                     ))}
                   </ul>
-                </div>
-              </article>
+                </article>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
