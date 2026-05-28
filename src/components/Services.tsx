@@ -34,7 +34,7 @@ export default function Services() {
   return (
     <section
       id="servicios"
-      className="relative px-6 py-32"
+      className="relative px-4 sm:px-6 py-20 sm:py-32"
       style={{ background: "var(--orange)", color: "var(--ink)" }}
     >
       <div className="max-w-[1280px] mx-auto">
@@ -45,7 +45,7 @@ export default function Services() {
                 className="font-display italic uppercase m-0"
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "clamp(56px, 9vw, 128px)",
+                  fontSize: "clamp(36px, 9vw, 128px)",
                   letterSpacing: "-0.04em",
                   lineHeight: 0.85,
                 }}

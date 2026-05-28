@@ -1,16 +1,11 @@
-"use client";
-
-import { useState } from "react";
+import Link from "next/link";
 import Reveal from "./Reveal";
-import ContactModal from "./ContactModal";
 
 export default function Contact() {
-  const [open, setOpen] = useState(false);
-
   return (
     <section
       id="contacto"
-      className="relative px-6 py-32 overflow-hidden"
+      className="relative px-4 sm:px-6 py-20 sm:py-32 overflow-hidden"
       style={{ background: "var(--ink)", color: "var(--paper)" }}
     >
       <div
@@ -48,7 +43,7 @@ export default function Contact() {
             className="font-display italic uppercase m-0 mb-8"
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(72px, 14vw, 240px)",
+              fontSize: "clamp(44px, 14vw, 240px)",
               letterSpacing: "-0.05em",
               lineHeight: 0.82,
             }}
@@ -68,8 +63,8 @@ export default function Contact() {
             className="text-[19px] leading-[1.5] max-w-xl mb-14"
             style={{ opacity: 0.85 }}
           >
-            Cuéntanos de tu proyecto. Te respondemos en menos de 24 horas con
-            una propuesta inicial sin compromiso.
+            Idea nueva, algo existente, o sólo una pregunta. Hablas directo
+            con quienes van a construirlo — sin intermediarios.
           </p>
         </Reveal>
 
@@ -145,8 +140,8 @@ export default function Contact() {
         </Reveal>
 
         <Reveal delay={0.2}>
-          <button
-            onClick={() => setOpen(true)}
+          <Link
+            href="/contacto"
             className="inline-flex items-center gap-3 font-semibold transition-transform hover:scale-[1.03]"
             style={{
               padding: "20px 32px",
@@ -159,11 +154,9 @@ export default function Contact() {
           >
             <span className="size-1.5 rounded-full bg-ink" />
             Hablemos →
-          </button>
+          </Link>
         </Reveal>
       </div>
-
-      <ContactModal open={open} onClose={() => setOpen(false)} />
     </section>
   );
 }

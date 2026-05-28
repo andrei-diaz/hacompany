@@ -17,7 +17,7 @@ export default function Marquee() {
     >
       <div
         className="flex whitespace-nowrap"
-        style={{ animation: "hh-scroll 40s linear infinite" }}
+        style={{ animation: "hh-scroll 18s linear infinite" }}
       >
         {tripled.map((t, i) => (
           <span

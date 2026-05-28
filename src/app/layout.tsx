@@ -25,10 +25,47 @@ const mono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://hacompany.com.mx";
+
 export const metadata: Metadata = {
-  title: "HA — Estudio digital · Montemorelos, NL",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "HA — Estudio digital · Montemorelos, NL",
+    template: "%s · HA",
+  },
   description:
-    "Hacemos software que importa. Estudio independiente de dos personas: páginas web, aplicaciones y productos a la medida.",
+    "Hacemos software a tu medida. Estudio independiente de dos personas: páginas web, aplicaciones y productos a la medida.",
+  keywords: [
+    "estudio digital",
+    "desarrollo web",
+    "aplicaciones a la medida",
+    "Montemorelos",
+    "Nuevo León",
+    "Next.js",
+    "agencia de software",
+  ],
+  authors: [{ name: "HA" }],
+  creator: "HA",
+  openGraph: {
+    type: "website",
+    locale: "es_MX",
+    url: siteUrl,
+    siteName: "HA",
+    title: "HA — Estudio digital",
+    description:
+      "Hacemos software a tu medida. Páginas web, aplicaciones y productos custom. Hablas directo con quienes lo construyen.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HA — Estudio digital",
+    description:
+      "Hacemos software a tu medida. Páginas web, aplicaciones y productos custom.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

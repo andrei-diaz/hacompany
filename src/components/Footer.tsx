@@ -42,9 +42,10 @@ function SocialIcon({
 }
 
 const navLinks = [
-  { label: "Servicios", href: "#servicios" },
-  { label: "Proyectos", href: "#proyectos" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Proyectos", href: "/#proyectos" },
+  { label: "Nosotros", href: "/nosotros" },
+  { label: "Contacto", href: "/#contacto" },
 ];
 
 const services = [
@@ -90,13 +91,13 @@ export default function Footer() {
           }}
         />
 
-        <div className="relative max-w-[1280px] mx-auto px-6 pt-24 pb-10">
+        <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-10">
           <div className="grid lg:grid-cols-[1.4fr_1fr] gap-16 mb-20">
             <div>
               <Logo size="xl" theme="onDark" />
             </div>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div>
                 <div
                   className="font-mono uppercase mb-5"
@@ -193,14 +194,19 @@ export default function Footer() {
             }}
           >
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 md:justify-self-start">
-              <span>HA · Montemorelos, NL</span>
-              <span style={{ opacity: 0.4 }}>·</span>
               <span>© {year}</span>
+              <span style={{ opacity: 0.4 }}>·</span>
+              <a
+                href="/privacidad"
+                className="hover:text-orange transition-colors"
+              >
+                Privacidad
+              </a>
             </div>
 
             <div className="flex items-center gap-3 md:justify-self-center">
               <SocialIcon
-                href="https://instagram.com/hacompany"
+                href="https://instagram.com/hacompany.com.mx"
                 label="Instagram"
               >
                 <svg

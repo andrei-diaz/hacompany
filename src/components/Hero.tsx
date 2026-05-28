@@ -23,33 +23,18 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative px-6 pt-10 pb-24 overflow-hidden"
+      className="relative px-4 sm:px-6 pt-10 pb-24 overflow-hidden"
     >
       <div aria-hidden className="absolute inset-0 grid-bg pointer-events-none" />
 
       <div className="relative max-w-[1280px] mx-auto">
-        <div
-          className="flex flex-wrap items-center justify-between gap-4 mb-10 font-mono uppercase text-ink"
-          style={{ fontSize: 11, letterSpacing: "0.18em" }}
-        >
-          <span>HA · Montemorelos, NL</span>
-          <span className="inline-flex items-center gap-2">
-            <span
-              className="size-1.5 rounded-full bg-ink"
-              style={{ animation: "hh-pulse 1.5s infinite" }}
-            />
-            Tomando proyectos · Q3 2026
-          </span>
-          <span>arrastra el planeta ↻</span>
-        </div>
-
-        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-10 items-center min-h-[600px]">
+        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-10 items-center lg:min-h-[600px]">
           <Reveal>
             <h1
               className="font-display italic uppercase text-ink m-0"
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(56px, 8.5vw, 140px)",
+                fontSize: "clamp(42px, 8.5vw, 140px)",
                 lineHeight: 0.82,
                 letterSpacing: "-0.05em",
               }}
@@ -64,7 +49,7 @@ export default function Hero() {
                   WebkitTextStroke: "2px var(--ink)",
                 }}
               >
-                que importa.
+                a tu medida.
               </span>
             </h1>
 
